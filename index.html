@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <section class="main">
+      <link rel="shortcut icon" href="icon.png">
+      <div class="words-display-wrap">
+
+      </div>
+
+      <div class="keyboard-wrap">
+        <svg
+          version='1.1'
+          baseProfile='full'
+          width='360' height='128'
+          xmlns="http://www.w3.org/2000/svg"
+          id='svg1'>
+
+
+
+
+        </svg>
+        <p id='keyboard-output'></p>
+      </div>
+
+    </section>
+  <script src="index.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    document.addEventListener("keydown", keyHandleUp)
+    document.addEventListener("keyup", keyHandleDown)
+    initialyzeKeyboard()
+  </script>
+  </body>
+</html>

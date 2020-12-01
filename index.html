@@ -1,37 +1,63 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <section class="main">
-      <link rel="shortcut icon" href="icon.png">
-      <div class="words-display-wrap">
 
-      </div>
+<head>
+  <meta charset="utf-8">
+  <title>typerst</title>
+  <style media="screen">
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
 
-      <div class="keyboard-wrap">
-        <svg
-          version='1.1'
-          baseProfile='full'
-          width='360' height='128'
-          xmlns="http://www.w3.org/2000/svg"
-          id='svg1'>
+    .main {
+      width: 100%;
+      height: 100%;
+    }
 
+    .keyboard-wrap {
+      border: 1px solid black;
+      padding: 1rem;
+      background-color: #bbccaa;
+      width: fit-content;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
+    #keyboard-output {
+      width: 30%;
+      height: 15px;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
 
+<body>
+  <section class="main">
+    <link rel="shortcut icon" href="icon.png">
 
-        </svg>
-        <p id='keyboard-output'></p>
-      </div>
+    <div class="keyboard-wrap" id='kw1'>
+      <svg version='1.1' baseProfile='full' width='360' height='128' xmlns="http://www.w3.org/2000/svg" id='svg1'>
+      </svg>
+    </div>
+    <p id='keyboard-output'></p>
 
-    </section>
+    <div class="words-display-wrap">
+    </div>
+
+  </section>
   <script src="index.js" charset="utf-8"></script>
   <script type="text/javascript">
     document.addEventListener("keydown", keyHandleUp)
     document.addEventListener("keyup", keyHandleDown)
     initialyzeKeyboard()
   </script>
-  </body>
+</body>
+
 </html>

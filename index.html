@@ -28,6 +28,19 @@
     }
 
     #keyboard-output {
+      padding: 4px;
+      border-bottom: 1px solid grey;
+      width: 30%;
+      height: 15px;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #display-text {
+      padding: 4px;
+      border-bottom: 1px solid grey;
       width: 30%;
       height: 15px;
       position: relative;
@@ -43,9 +56,10 @@
     <link rel="shortcut icon" href="icon.png">
 
     <div class="keyboard-wrap" id='kw1'>
-      <svg version='1.1' baseProfile='full' width='360' height='128' xmlns="http://www.w3.org/2000/svg" id='svg1'>
+      <svg version='1.1' baseProfile='full' width='700' height='128' xmlns="http://www.w3.org/2000/svg" id='svg1'>
       </svg>
     </div>
+    <p id='display-text'></p>
     <p id='keyboard-output'></p>
 
     <div class="words-display-wrap">
@@ -53,10 +67,13 @@
 
   </section>
   <script src="index.js" charset="utf-8"></script>
+  <script src="keyboard.js" charset="utf-8"></script>
   <script type="text/javascript">
     document.addEventListener("keydown", keyHandleUp)
     document.addEventListener("keyup", keyHandleDown)
-    initialyzeKeyboard()
+    // initialyzeKeyboard()
+    initialyzeKeyboardNew()
+    start()
   </script>
 </body>
 

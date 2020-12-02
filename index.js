@@ -1,31 +1,26 @@
-var allowedKeys = [
-  'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-  'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
-  'z', 'x', 'c', 'v', 'b', 'n', 'm'
-]
-
-
+var allowedKeys = []
+var fKeys = [9,20,219,221,188,186]
 const svgns = "http://www.w3.org/2000/svg";
 
 var output = ''
 
-var dispText = '   Lorem ipsum dolor sit amet.   '
+var dispText = 'lorem_ipsum_dolor_sit_amet'
 
 function keyHandleUp(e) {
-  if(e.keyCode=='32'){
-      output = output.concat(' ','\xa0');
-  }else if (allowedKeys.includes(e.key)) {
-      document.getElementById(e.key).style.fill = 'green'
-      // output += e.key
-      output = output.concat('',e.key);
+  console.log('Pressed ' + e.keyCode + ' ' + e.key);
+  if (allowedKeys.includes(e.keyCode)) {
+    document.getElementById(e.keyCode).style.fill = 'green'
+    output += e.key
+    // output = output.concat('', e.key);
   }
   console.log(output);
   document.getElementById('keyboard-output').innerText = output
 }
 
 function keyHandleDown(e) {
-  if (allowedKeys.includes(e.key)) {
-    document.getElementById(e.key).style.fill = 'red'
+  console.log('Released ' + e.keyCode + ' ' + e.key);
+  if (allowedKeys.includes(e.keyCode)) {
+    document.getElementById(e.keyCode).style.fill = 'red'
   }
 }
 
@@ -77,4 +72,47 @@ function initialyzeKeyboard() {
   console.log(document.getElementById('keyboard-output').style);
   document.getElementById('keyboard-output').style.width = document.getElementById('kw1').style.width;
   console.log(document.getElementById('keyboard-output').style.width);
+}
+
+function initialyzeKeyboardNew() {
+  //Инициализирует меню
+  svg = document.getElementsByTagName('svg')[0]
+  let x = 0
+  let y = 0
+  let currentRow = 0;
+  let rowLenghts = [9, 8, 6]
+  let cntr = 0
+  for (key of newKeyboard) {
+    let svgKey = document.createElementNS(svgns, "rect");
+    svgKey.id = key.keyCode
+    svgKey.setAttribute("x", x);
+    svgKey.setAttribute("y", y);
+    if(fKeys.includes(key.keyCode)){
+      svgKey.setAttribute("fill", 'grey');
+    }else{
+      svgKey.setAttribute("fill", 'red');
+      allowedKeys.push(key.keyCode)
+    }
+    svgKey.setAttribute("width", key.width + 'px');
+    svgKey.setAttribute("height", key.height + 'px');
+
+    let text = document.createElementNS(svgns, 'text');
+    text.id = 't' + key.keyCode
+    text.setAttribute("x", x + 13);
+    text.setAttribute("y", y + 21);
+    textLetter = key.letter
+    text.append(textLetter)
+    svg.append(svgKey, text)
+
+    x += Number(key.width) + 5;
+    if (key.lastInRow) {
+      x = 0
+      y += 40
+    }
+  }
+}
+
+
+function start() {
+  document.getElementById('display-text').innerText = dispText
 }

@@ -253,7 +253,19 @@ var newKeyboard = [{
 }, {
   'letter': '',
   'keyCode': 32,
-  'width': '190',
+  'width': '245',
   'height': '34',
-  'lastInRow': true
+  'lastInRow': false
+}, {
+  'letter': 'Alt',
+  'keyCode': 16,
+  'width': '45',
+  'height': '34',
+  'lastInRow': false
+}, {
+  'letter': 'Ctrl',
+  'keyCode': 16,
+  'width': '45',
+  'height': '34',
+  'lastInRow': false
 }]

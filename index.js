@@ -18,7 +18,7 @@ function keyHandleUp(e) {
 
 function keyHandleDown(e) {
   if (allowedKeys.includes(e.keyCode)) {
-    document.getElementById(e.keyCode).style.fill = '#d0d0d0'
+    document.getElementById(e.keyCode).style.fill = '#E0E0E0'
   }
 }
 
@@ -86,9 +86,9 @@ function initialyzeKeyboardNew() {
     svgKey.setAttribute("x", x);
     svgKey.setAttribute("y", y);
     if(fKeys.includes(key.keyCode)){
-      svgKey.setAttribute("fill", 'grey');
+      svgKey.setAttribute("fill", '#c0c0c0');
     }else{
-      svgKey.setAttribute("fill", '#d0d0d0');
+      svgKey.setAttribute("fill", '#E0E0E0');
       allowedKeys.push(key.keyCode)
     }
     svgKey.setAttribute("width", key.width + 'px');

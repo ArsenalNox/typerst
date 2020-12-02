@@ -17,7 +17,8 @@
     }
 
     .keyboard-wrap {
-      border: 1px solid black;
+      border: 1px solid #e0e0e0;
+      border-radius: 14px;
       padding: 1rem;
       background-color: #f0f0f0;
       width: fit-content;
@@ -27,18 +28,8 @@
       transform: translate(-50%, -50%);
     }
 
+    #display-text,
     #keyboard-output {
-      padding: 4px;
-      border-bottom: 1px solid grey;
-      width: 30%;
-      height: 15px;
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    #display-text {
       padding: 4px;
       border-bottom: 1px solid grey;
       width: 30%;
@@ -71,7 +62,6 @@
   <script type="text/javascript">
     document.addEventListener("keydown", keyHandleUp)
     document.addEventListener("keyup", keyHandleDown)
-    // initialyzeKeyboard()
     initialyzeKeyboardNew()
     start()
   </script>

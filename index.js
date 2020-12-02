@@ -1,5 +1,5 @@
 var allowedKeys = []
-var fKeys = [9,20,219,221,188,186]
+var fKeys = [9,20,219,221,188,186,13,16,222,190,191]
 const svgns = "http://www.w3.org/2000/svg";
 
 var output = ''
@@ -7,20 +7,18 @@ var output = ''
 var dispText = 'lorem_ipsum_dolor_sit_amet'
 
 function keyHandleUp(e) {
-  console.log('Pressed ' + e.keyCode + ' ' + e.key);
+  console.log(e.keyCode + ' ' + e.key);
   if (allowedKeys.includes(e.keyCode)) {
-    document.getElementById(e.keyCode).style.fill = 'green'
+    document.getElementById(e.keyCode).style.fill = '#ffffff'
     output += e.key
     // output = output.concat('', e.key);
   }
-  console.log(output);
   document.getElementById('keyboard-output').innerText = output
 }
 
 function keyHandleDown(e) {
-  console.log('Released ' + e.keyCode + ' ' + e.key);
   if (allowedKeys.includes(e.keyCode)) {
-    document.getElementById(e.keyCode).style.fill = 'red'
+    document.getElementById(e.keyCode).style.fill = '#d0d0d0'
   }
 }
 
@@ -38,7 +36,7 @@ function initialyzeKeyboard() {
     key.id = allowedKeys[i];
     key.setAttribute("x", x);
     key.setAttribute("y", y);
-    key.setAttribute("fill", 'red');
+    key.setAttribute("fill", '#d0d0d0');
     key.setAttribute("width", "34px");
     key.setAttribute("height", "34px");
 
@@ -63,7 +61,7 @@ function initialyzeKeyboard() {
   key.id = ' '
   key.setAttribute("x", x)
   key.setAttribute("y", y)
-  key.setAttribute("fill", 'red')
+  key.setAttribute("fill", '#d0d0d0')
   key.setAttribute("width", "200px")
   key.setAttribute("height", "60px")
   svg.append(key)
@@ -90,7 +88,7 @@ function initialyzeKeyboardNew() {
     if(fKeys.includes(key.keyCode)){
       svgKey.setAttribute("fill", 'grey');
     }else{
-      svgKey.setAttribute("fill", 'red');
+      svgKey.setAttribute("fill", '#d0d0d0');
       allowedKeys.push(key.keyCode)
     }
     svgKey.setAttribute("width", key.width + 'px');
@@ -98,7 +96,7 @@ function initialyzeKeyboardNew() {
 
     let text = document.createElementNS(svgns, 'text');
     text.id = 't' + key.keyCode
-    text.setAttribute("x", x + 13);
+    text.setAttribute("x", x + 11);
     text.setAttribute("y", y + 21);
     textLetter = key.letter
     text.append(textLetter)

@@ -78,7 +78,7 @@ var newKeyboard = [{
   'lastInRow': false
 }, {
   'letter': 'Backspace',
-  'keyCode': 221,
+  'keyCode': 8,
   'width': '85',
   'height': '34',
   'lastInRow': true

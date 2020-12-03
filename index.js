@@ -1,21 +1,62 @@
 var allowedKeys = []
-var fKeys = [9,20,219,221,188,186,13,16,222,190,191]
+var fKeys = [16,9, 20, 219, 221, 188, 186, 13, 222, 190, 191]
+var ndKeys = [8,16]
 const svgns = "http://www.w3.org/2000/svg";
-
 var output = ''
+var complete = false
+var completed = 0
 
-var dispText = 'lorem_ipsum_dolor_sit_amet'
+var text = ['Lorem ipsum dolor sit amet',
+'consectetur adipisicing elit',
+'sed do eiusmod tempor incididunt ut labore',
+'et dolore magna aliqua.',
+'Ut enim ad minim veniam, quis nostrud',
+'exercitation ullamco laboris nisi ut',
+'aliquip ex ea commodo consequat.',
+'Duis aute irure dolor in reprehenderit',
+'in voluptate velit esse cillum dolore',
+'eu fugiat nulla pariatur.',
+'Excepteur sint occaecat',
+'cupidatat non proident,',
+'sunt in culpa qui officia',
+'deserunt mollit anim id est laborum.'
+]
+
+var dispText = text[completed]
+
+
 
 // TODO: В целом функционал тренажера печати
+
 
 function keyHandleUp(e) {
   console.log(e.keyCode + ' ' + e.key);
   if (allowedKeys.includes(e.keyCode)) {
     document.getElementById(e.keyCode).style.fill = '#ffffff'
-    output += e.key
-    // output = output.concat('', e.key);
+    if (output.length < dispText.length) {
+      output += e.key
+    } else {
+      complete = true
+    }
   }
-  document.getElementById('keyboard-output').innerText = output
+  document.getElementById('keyboard-output').innerText = ''
+  for (var i = 0; i < output.length; i++) {
+    if (output[i] == dispText[i]) {
+      color = 'green'
+    } else {
+      color = 'red'
+    }
+    document.getElementById('keyboard-output').innerHTML += "<span style='color: " + color + "'>" + output[i] + "</span>"
+  }
+  document.getElementById('keyboard-output').innerHTML += "_"
+  if(complete){
+    output = ''
+    document.getElementById('keyboard-output').innerHTML = output
+    completed++
+    dispText = generateNewDisplayText()
+    complete = false
+    start()
+  }
 }
 
 function keyHandleDown(e) {
@@ -28,7 +69,6 @@ function initialyzeKeyboardNew() {
   //Инициализирует меню
   // TODO: Писать сразу капсом
   // TODO: Добавить русскую раскладку
-
   svg = document.getElementsByTagName('svg')[0]
   let x = 0
   let y = 0
@@ -40,9 +80,9 @@ function initialyzeKeyboardNew() {
     svgKey.id = key.keyCode
     svgKey.setAttribute("x", x);
     svgKey.setAttribute("y", y);
-    if(fKeys.includes(key.keyCode)){
+    if (fKeys.includes(key.keyCode)) {
       svgKey.setAttribute("fill", '#c0c0c0');
-    }else{
+    } else {
       svgKey.setAttribute("fill", '#E0E0E0');
       allowedKeys.push(key.keyCode)
     }
@@ -64,6 +104,15 @@ function initialyzeKeyboardNew() {
     }
   }
 }
+
+function generateNewDisplayText(){
+  if(!(completed>text.length-1)){
+    return text[completed];
+  } else {
+    return 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+  }
+}
+
 
 function start() {
   document.getElementById('display-text').innerText = dispText

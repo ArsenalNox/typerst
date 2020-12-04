@@ -1,25 +1,25 @@
 var allowedKeys = []
-var fKeys = [16,9, 20, 219, 221, 188, 186, 13, 222, 190, 191]
-var ndKeys = [8,16]
+var fKeys = [16, 9, 20, 219, 221, 186, 13, 222, 191]
+var ndKeys = [8, 16]
 const svgns = "http://www.w3.org/2000/svg";
 var output = ''
 var complete = false
 var completed = 0
 
-var text = ['Lorem ipsum dolor sit amet',
-'consectetur adipisicing elit',
-'sed do eiusmod tempor incididunt ut labore',
-'et dolore magna aliqua.',
-'Ut enim ad minim veniam, quis nostrud',
-'exercitation ullamco laboris nisi ut',
-'aliquip ex ea commodo consequat.',
-'Duis aute irure dolor in reprehenderit',
-'in voluptate velit esse cillum dolore',
-'eu fugiat nulla pariatur.',
-'Excepteur sint occaecat',
-'cupidatat non proident,',
-'sunt in culpa qui officia',
-'deserunt mollit anim id est laborum.'
+var text = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet',
+  'consectetur', 'adipisicing', 'elit',
+  'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore',
+  'et', 'dolore', 'magna', 'aliqua.',
+  'Ut', 'enim', 'ad', 'minim', 'veniam,', 'quis', 'nostrud',
+  'exercitation', 'ullamco', 'laboris', 'nisi', 'ut',
+  'aliquip', 'ex', 'ea', 'commodo', 'consequat.',
+  'Duis', 'aute', 'irure', 'dolor', 'in', 'reprehenderit',
+  'in', 'voluptate', 'velit', 'esse', 'cillum', 'dolore',
+  'eu', 'fugiat', 'nulla', 'pariatur.',
+  'Excepteur', 'sint', 'occaecat',
+  'cupidatat', 'non', 'proident,',
+  'sunt', 'in', 'culpa', 'qui', 'officia',
+  'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum.'
 ]
 
 var dispText = text[completed]
@@ -33,10 +33,15 @@ function keyHandleUp(e) {
   console.log(e.keyCode + ' ' + e.key);
   if (allowedKeys.includes(e.keyCode)) {
     document.getElementById(e.keyCode).style.fill = '#ffffff'
-    if (output.length < dispText.length) {
-      output += e.key
+    if(!(e.keyCode == 8)){
+      if (output.length < dispText.length) {
+        output += e.key
+      } else {
+        complete = true
+      }
     } else {
-      complete = true
+      output=output.slice(0, output.length-1)
+      console.log(output);
     }
   }
   document.getElementById('keyboard-output').innerText = ''
@@ -49,7 +54,7 @@ function keyHandleUp(e) {
     document.getElementById('keyboard-output').innerHTML += "<span style='color: " + color + "'>" + output[i] + "</span>"
   }
   document.getElementById('keyboard-output').innerHTML += "_"
-  if(complete){
+  if (complete) {
     output = ''
     document.getElementById('keyboard-output').innerHTML = output
     completed++
@@ -105,11 +110,20 @@ function initialyzeKeyboardNew() {
   }
 }
 
-function generateNewDisplayText(){
-  if(!(completed>text.length-1)){
-    return text[completed];
+function generateNewDisplayText() {
+  if (!(completed > text.length - 1)) {
+    let rtx =''
+    for (var i = 0; i < 6; i++) {
+      if(i==5){
+        rtx += text[Math.floor(Math.random() * text.length)]
+      }else {
+        rtx += text[Math.floor(Math.random() * text.length)]+' '
+      }
+    }
+    return rtx;
   } else {
-    return 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+    completed = 0
+    return text[completed];
   }
 }
 

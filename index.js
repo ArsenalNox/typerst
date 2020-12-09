@@ -5,7 +5,6 @@ const svgns = "http://www.w3.org/2000/svg";
 var output = ''
 var complete = false
 var completed = 0
-
 var text = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet',
   'consectetur', 'adipisicing', 'elit',
   'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore',
@@ -31,18 +30,24 @@ var dispText = text[completed]
 // TODO: Обработка статистики, рисование графиков, тенденций
 
 function keyHandleUp(e) {
-  console.log(e.keyCode + ' ' + e.key);
+  //console.log(dispText[output.length])
   if (allowedKeys.includes(e.keyCode)) {
     document.getElementById(e.keyCode).style.fill = '#ffffff'
     if(!(e.keyCode == 8)){
       if (output.length < dispText.length) {
+	if(!(e.key == dispText[output.length])){
+//		console.log('Wrong button'+e.key+' '+dispText[output.length-1])
+		letterStatCompute(dispText[output.length], false)
+	}else{
+		letterStatCompute(dispText[output.length], true)
+	}
         output += e.key
       } else {
         complete = true
       }
     } else {
       output=output.slice(0, output.length-1)
-      console.log(output);
+      //console.log(output);
     }
   }
   document.getElementById('keyboard-output').innerText = ''
@@ -78,9 +83,6 @@ function initialyzeKeyboardNew() {
   svg = document.getElementsByTagName('svg')[0]
   let x = 0
   let y = 0
-  let currentRow = 0;
-  let rowLenghts = [9, 8, 6]
-  let cntr = 0
   for (key of newKeyboard) {
     let svgKey = document.createElementNS(svgns, "rect");
     svgKey.id = key.keyCode
@@ -132,3 +134,18 @@ function generateNewDisplayText() {
 function start() {
   document.getElementById('display-text').innerText = dispText
 }
+
+function letterStatCompute(letter, correct){
+	console.log('Current letter is '+letter)
+	if(correct){
+		console.log(' And you pressed it correctly!')
+	}else{
+
+		console.log(' And you pressed it wrong!')
+	}
+
+}
+
+
+
+

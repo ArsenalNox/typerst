@@ -1,10 +1,14 @@
+//svg
+const svgns = "http://www.w3.org/2000/svg";
+//Разрещённые клавиши, запрещённые (для вида), функциональные
 var allowedKeys = []
 var fKeys = [16, 9, 20, 219, 221, 186, 13, 222, 191]
 var ndKeys = [8, 16]
-const svgns = "http://www.w3.org/2000/svg";
+//Ввод, переключение на новую строку, кол-во выполненых строк
 var output = ''
 var complete = false
 var completed = 0
+//Набор возможных слов
 var text = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet',
   'consectetur', 'adipisicing', 'elit',
   'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore',
@@ -20,10 +24,11 @@ var text = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet',
   'sunt', 'in', 'culpa', 'qui', 'officia',
   'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum'
 ]
+//Оболочка для отображения статистики букв
 var statDispDiv = document.getElementById('swd1')
-
+//Отображаемый текст
 var dispText = generateNewDisplayText()
-
+//Буквы и их статистика
 var letters = {
 	'q':{'tl':'q','typed':0, 'correct':0},
 	'w':{'tl':'w','typed':0, 'correct':0},
@@ -57,25 +62,26 @@ var letters = {
 // TODO: Обработка статистики, рисование графиков, тенденций
 
 function keyHandleUp(e) {
-  //console.log(dispText[output.length])
+  //Обработка нажатий, если клавиша корректная
   if (allowedKeys.includes(e.keyCode)) {
+    //Подсветка нажатой клавиши
     document.getElementById(e.keyCode).style.fill = '#ffffff'
     if(!(e.keyCode == 8)){
-      if (output.length < dispText.length-1) {
-	if(!(e.key == dispText[output.length])){
-//		console.log('Wrong button'+e.key+' '+dispText[output.length-1])
-		letterStatCompute(dispText[output.length], false)
-	}else{
-		letterStatCompute(dispText[output.length], true)
-	}
-        output += e.key
+        if (output.length < dispText.length-1) {
+        	if(!(e.key == dispText[output.length])){
+        		letterStatCompute(dispText[output.length], false)
+        	}else{
+        		letterStatCompute(dispText[output.length], true)
+        	}
+          //Добавляем нажатую клавишу в вывод
+          output += e.key
+          } else {
+            complete = true
+          }
       } else {
-        complete = true
+        output=output.slice(0, output.length-1)
+        //console.log(output);
       }
-    } else {
-      output=output.slice(0, output.length-1)
-      //console.log(output);
-    }
   }
   document.getElementById('keyboard-output').innerText = ''
   for (var i = 0; i < output.length; i++) {
@@ -98,17 +104,19 @@ function keyHandleUp(e) {
 }
 
 function keyHandleDown(e) {
+  //Перекрашивает клавишу в неактивный цвет когда происходит отжатие клавишы
   if (allowedKeys.includes(e.keyCode)) {
     document.getElementById(e.keyCode).style.fill = '#E0E0E0'
   }
 }
 
 function initialyzeKeyboardNew() {
-  //Инициализирует меню
+  //Инициализирует клавиатуру
   svg = document.getElementsByTagName('svg')[0]
   let x = 0
   let y = 0
   for (key of newKeyboard) {
+    //Создаём SVG каждой клавише
     let svgKey = document.createElementNS(svgns, "rect");
     svgKey.id = key.keyCode
     svgKey.setAttribute("x", x);
@@ -139,7 +147,7 @@ function initialyzeKeyboardNew() {
 }
 
 function generateNewDisplayText() {
-	//Генерирует отбражаемый текст
+	//Генерирует новый отбражаемый текст
   if (!(completed > text.length - 1)) {
     let rtx =''
     for (var i = 0; i < 6; i++) {
@@ -173,15 +181,13 @@ function letterStatCompute(letter, correct){
 }
 
 function showStatistics(){
+  //Рисует статистику в диве
 	let j = 0;
 	for(i in letters){
 		console.log(j, i)
 		let letterDisplayBlock = document.getElementById('l'+j)
-		letterDisplayBlock.innerText = letters[i].tl		
+		letterDisplayBlock.innerText = letters[i].tl
 		let percent = Math.round(letters[i].typed/100 * letters[i].correct)
-		
 		j++
 	}
 }
-
-

@@ -8,23 +8,50 @@ var completed = 0
 var text = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet',
   'consectetur', 'adipisicing', 'elit',
   'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore',
-  'et', 'dolore', 'magna', 'aliqua.',
+  'et', 'dolore', 'magna', 'aliqua',
   'Ut', 'enim', 'ad', 'minim', 'veniam,', 'quis', 'nostrud',
   'exercitation', 'ullamco', 'laboris', 'nisi', 'ut',
-  'aliquip', 'ex', 'ea', 'commodo', 'consequat.',
+  'aliquip', 'ex', 'ea', 'commodo', 'consequat',
   'Duis', 'aute', 'irure', 'dolor', 'in', 'reprehenderit',
   'in', 'voluptate', 'velit', 'esse', 'cillum', 'dolore',
-  'eu', 'fugiat', 'nulla', 'pariatur.',
+  'eu', 'fugiat', 'nulla', 'pariatur',
   'Excepteur', 'sint', 'occaecat',
   'cupidatat', 'non', 'proident,',
   'sunt', 'in', 'culpa', 'qui', 'officia',
-  'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum.'
+  'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum'
 ]
+var statDispDiv = document.getElementById('swd1')
 
-var dispText = text[completed]
+var dispText = generateNewDisplayText()
 
-
-
+var letters = {
+	'q':{'tl':'q','typed':0, 'correct':0},
+	'w':{'tl':'w','typed':0, 'correct':0},
+	'e':{'tl':'e','typed':0, 'correct':0},
+	'r':{'tl':'r','typed':0, 'correct':0},
+	't':{'tl':'t','typed':0, 'correct':0},
+	'y':{'tl':'y','typed':0, 'correct':0},
+	'u':{'tl':'u','typed':0, 'correct':0},
+	'i':{'tl':'i','typed':0, 'correct':0},
+	'o':{'tl':'o','typed':0, 'correct':0},
+	'p':{'tl':'p','typed':0, 'correct':0},
+	'a':{'tl':'a','typed':0, 'correct':0},
+	's':{'tl':'s','typed':0, 'correct':0},
+	'd':{'tl':'d','typed':0, 'correct':0},
+	'f':{'tl':'f','typed':0, 'correct':0},
+	'g':{'tl':'g','typed':0, 'correct':0},
+	'h':{'tl':'h','typed':0, 'correct':0},
+	'j':{'tl':'j','typed':0, 'correct':0},
+	'k':{'tl':'k','typed':0, 'correct':0},
+	'l':{'tl':'l','typed':0, 'correct':0},
+	'z':{'tl':'z','typed':0, 'correct':0},
+	'x':{'tl':'x','typed':0, 'correct':0},
+	'c':{'tl':'c','typed':0, 'correct':0},
+	'v':{'tl':'v','typed':0, 'correct':0},
+	'b':{'tl':'b','typed':0, 'correct':0},
+	'n':{'tl':'n','typed':0, 'correct':0},
+	'm':{'tl':'m','typed':0, 'correct':0}
+}
 // TODO: В целом функционал тренажера печати
 // TODO: Сбор статистик: скорость печати (слов в минуту, символов), точность печати (процент ошибок из всех символов, просто кол-во ошибок), статистика по буквам (процент правильнх нажатий, частота)
 // TODO: Обработка статистики, рисование графиков, тенденций
@@ -34,7 +61,7 @@ function keyHandleUp(e) {
   if (allowedKeys.includes(e.keyCode)) {
     document.getElementById(e.keyCode).style.fill = '#ffffff'
     if(!(e.keyCode == 8)){
-      if (output.length < dispText.length) {
+      if (output.length < dispText.length-1) {
 	if(!(e.key == dispText[output.length])){
 //		console.log('Wrong button'+e.key+' '+dispText[output.length-1])
 		letterStatCompute(dispText[output.length], false)
@@ -78,8 +105,6 @@ function keyHandleDown(e) {
 
 function initialyzeKeyboardNew() {
   //Инициализирует меню
-  // TODO: Писать сразу капсом
-  // TODO: Добавить русскую раскладку
   svg = document.getElementsByTagName('svg')[0]
   let x = 0
   let y = 0
@@ -114,6 +139,7 @@ function initialyzeKeyboardNew() {
 }
 
 function generateNewDisplayText() {
+	//Генерирует отбражаемый текст
   if (!(completed > text.length - 1)) {
     let rtx =''
     for (var i = 0; i < 6; i++) {
@@ -136,16 +162,26 @@ function start() {
 }
 
 function letterStatCompute(letter, correct){
-	console.log('Current letter is '+letter)
-	if(correct){
-		console.log(' And you pressed it correctly!')
-	}else{
-
-		console.log(' And you pressed it wrong!')
+	//Собирирает статистику ввода
+	letter = letter.toLowerCase()
+	if(letter in letters){
+		letters[letter].typed++
+		if(correct){
+			letters[letter].correct++
+		}
 	}
-
 }
 
-
+function showStatistics(){
+	let j = 0;
+	for(i in letters){
+		console.log(j, i)
+		let letterDisplayBlock = document.getElementById('l'+j)
+		letterDisplayBlock.innerText = letters[i].tl		
+		let percent = Math.round(letters[i].typed/100 * letters[i].correct)
+		
+		j++
+	}
+}
 
 

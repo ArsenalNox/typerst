@@ -38,15 +38,60 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+	.statistics-wrap{
+		margin-top: 1rem;
+		display: flex;
+		position: relative;
+		border: 1px solid black;
+	}
+	.letter{
+		position: relative;
+		width: 50px;
+		height: 50px;
+		background: wheat;
+		margin: 3px;
+		vertical-align: middle;
+	}
+	.letter p {
+		text-align: center;
+		font-size: larger;
+	}
   </style>
 </head>
 
 <body>
   <section class="main">
-    <link rel="shortcut icon" href="icon.png">
+<div class='statistics-wrap' id='swd1'> 
+	<div class='letter'><p id='l0'></p></div>
+	<div class='letter'><p id='l1'></p></div>
+	<div class='letter'><p id='l2'></p></div>
+	<div class='letter'><p id='l3'></p></div>
+	<div class='letter'><p id='l4'></p></div>
+	<div class='letter'><p id='l5'></p></div>
+	<div class='letter'><p id='l6'></p></div>
+	<div class='letter'><p id='l7'></p></div>
+	<div class='letter'><p id='l8'></p></div>
+	<div class='letter'><p id='l9'></p></div>
+	<div class='letter'><p id='l10'></p></div>
+	<div class='letter'><p id='l11'></p></div>
+	<div class='letter'><p id='l12'></p></div>
+	<div class='letter'><p id='l13'></p></div>
+	<div class='letter'><p id='l14'></p></div>
+	<div class='letter'><p id='l15'></p></div>
+	<div class='letter'><p id='l16'></p></div>
+	<div class='letter'><p id='l17'></p></div>
+	<div class='letter'><p id='l18'></p></div>
+	<div class='letter'><p id='l19'></p></div>
+	<div class='letter'><p id='l20'></p></div>
+	<div class='letter'><p id='l21'></p></div>
+	<div class='letter'><p id='l22'></p></div>
+	<div class='letter'><p id='l23'></p></div>
+	<div class='letter'><p id='l24'></p></div>
+	<div class='letter'><p id='l25'></p></div>
+</div>
     <p id='display-text'></p>
     <div id='keyboard-output'></div>
-<br>
+    <br>
     <div class="keyboard-wrap" id='kw1'>
       <svg version='1.1' baseProfile='full' width='700' height='155' xmlns="http://www.w3.org/2000/svg" id='svg1'>
       </svg>
@@ -60,10 +105,11 @@
   <script src="index.js" charset="utf-8"></script>
   <script src="keyboard.js" charset="utf-8"></script>
   <script type="text/javascript">
-    document.addEventListener("keydown", keyHandleUp)
-    document.addEventListener("keyup", keyHandleDown)
-    initialyzeKeyboardNew()
-    start()
+	document.addEventListener("keydown", keyHandleUp)
+	document.addEventListener("keyup", keyHandleDown)
+	initialyzeKeyboardNew()
+	showStatistics()
+	start()
   </script>
 </body>
 

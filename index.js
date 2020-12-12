@@ -73,10 +73,10 @@ function keyHandleUp(e) {
         	}else{
         		letterStatCompute(dispText[output.length], true)
         	}
-          //Добавляем нажатую клавишу в вывод
-          output += e.key
+    		//Добавляем нажатую клавишу в вывод
+       		output += e.key
           } else {
-            complete = true
+		complete = true
           }
       } else {
         output=output.slice(0, output.length-1)
@@ -99,6 +99,7 @@ function keyHandleUp(e) {
     completed++
     dispText = generateNewDisplayText()
     complete = false
+    showStatistics()
     start()
   }
 }
@@ -184,10 +185,24 @@ function showStatistics(){
   //Рисует статистику в диве
 	let j = 0;
 	for(i in letters){
-		console.log(j, i)
-		let letterDisplayBlock = document.getElementById('l'+j)
+		var letterDisplayBlock = document.getElementById('l'+j)
 		letterDisplayBlock.innerText = letters[i].tl
-		let percent = Math.round(letters[i].typed/100 * letters[i].correct)
+		if( letters[i].typed == 0 ){
+			var corPercent = 0
+		}else{
+			var corPercent = Math.round( ( letters[i].correct / letters[i].typed )*100 )
+		}
+		console.log(j, i, corPercent)
+		if( (corPercent == 100) || corPercent >= 90   ) {
+			letterDisplayBlock.parentElement.style.backgroundColor = '#00FF00'
+		} else if( (corPercent<90) && (corPercent>=70) ){
+			letterDisplayBlock.parentElement.style.backgroundColor = '#00AA00'
+		} else if( (corPercent<70) && (corPercent>=50) ) {
+			letterDisplayBlock.parentElement.style.backgroundColor = '#999900'
+		} else if( letters[i].typed !== 0){
+			letterDisplayBlock.parentElement.style.backgroundColor = '#FF0000'
+		}
+
 		j++
 	}
 }

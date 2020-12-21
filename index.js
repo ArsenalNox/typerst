@@ -1,13 +1,16 @@
 //svg
 const svgns = "http://www.w3.org/2000/svg";
+
 //Разрещённые клавиши, запрещённые (для вида), функциональные
 var allowedKeys = []
 var fKeys = [16, 9, 20, 219, 221, 186, 13, 222, 191]
 var ndKeys = [8, 16]
+
 //Ввод, переключение на новую строку, кол-во выполненых строк
 var output = ''
 var complete = false
 var completed = 0
+
 //Набор возможных слов
 var text = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet',
   'consectetur', 'adipisicing', 'elit',
@@ -24,10 +27,13 @@ var text = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet',
   'sunt', 'in', 'culpa', 'qui', 'officia',
   'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum'
 ]
+
 //Оболочка для отображения статистики букв
 var statDispDiv = document.getElementById('swd1')
+
 //Отображаемый текст
 var dispText = generateNewDisplayText()
+
 //Буквы и их статистика
 var letters = {
 	'q':{'tl':'q','typed':0, 'correct':0},
@@ -57,6 +63,13 @@ var letters = {
 	'n':{'tl':'n','typed':0, 'correct':0},
 	'm':{'tl':'m','typed':0, 'correct':0}
 }
+
+var keypressStatTimer;
+var firstPress = true;
+var pressedKeyCountCurrent = 0;
+var pressedKeyCountAll = [];
+var passedTimeS = 0; 
+
 // TODO: В целом функционал тренажера печати
 // TODO: Сбор статистик: скорость печати (слов в минуту, символов), точность печати (процент ошибок из всех символов, просто кол-во ошибок), статистика по буквам (процент правильнх нажатий, частота)
 // TODO: Обработка статистики, рисование графиков, тенденций
@@ -64,6 +77,13 @@ var letters = {
 function keyHandleUp(e) {
   //Обработка нажатий, если клавиша корректная
   if (allowedKeys.includes(e.keyCode)) {
+	if(firstPress){
+		console.log('FIRST PRESS')
+		firstPress = false;
+		keypressStatTimer = setInterval(() => {
+			passedTimeS+= 0.5
+		},500)
+	}
     //Подсветка нажатой клавиши
     document.getElementById(e.keyCode).style.fill = '#ffffff'
     if(!(e.keyCode == 8)){
@@ -76,8 +96,11 @@ function keyHandleUp(e) {
     		//Добавляем нажатую клавишу в вывод
        		output += e.key
           } else {
-		complete = true
-          }
+		complete = true;
+        	firstPress = true;
+		clearInterval(keypressStatTimer);
+		computeKeypressStat(passedTimeS, output.length, dispText.split(' ').length)
+	}
       } else {
         output=output.slice(0, output.length-1)
         //console.log(output);
@@ -93,15 +116,17 @@ function keyHandleUp(e) {
     document.getElementById('keyboard-output').innerHTML += "<span style='color: " + color + "'>" + output[i] + "</span>"
   }
   document.getElementById('keyboard-output').innerHTML += "_"
-  if (complete) {
-    output = ''
-    document.getElementById('keyboard-output').innerHTML = output
-    completed++
-    dispText = generateNewDisplayText()
-    complete = false
-    showStatistics()
-    start()
-  }
+
+	if (complete) {
+		output = ''
+		document.getElementById('keyboard-output').innerHTML = output
+		completed++
+		dispText = generateNewDisplayText()
+		complete = false
+		computeKeypressStat()
+		showStatistics()
+		start()
+	}
 }
 
 function keyHandleDown(e) {
@@ -116,7 +141,9 @@ function initialyzeKeyboardNew() {
   svg = document.getElementsByTagName('svg')[0]
   let x = 0
   let y = 0
+
   for (key of newKeyboard) {
+
     //Создаём SVG каждой клавише
     let svgKey = document.createElementNS(svgns, "rect");
     svgKey.id = key.keyCode
@@ -151,7 +178,7 @@ function generateNewDisplayText() {
 	//Генерирует новый отбражаемый текст
   if (!(completed > text.length - 1)) {
     let rtx =''
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 12; i++) {
       if(i==5){
         rtx += text[Math.floor(Math.random() * text.length)]
       }else {
@@ -193,6 +220,7 @@ function showStatistics(){
 			var corPercent = Math.round( ( letters[i].correct / letters[i].typed )*100 )
 		}
 		console.log(j, i, corPercent)
+		letterDisplayBlock.innerHTML += "<p style='margin-top: 2rem;' >"+corPercent+'% </p>'; 
 		if( (corPercent == 100) || corPercent >= 90   ) {
 			letterDisplayBlock.parentElement.style.backgroundColor = '#00FF00'
 		} else if( (corPercent<90) && (corPercent>=70) ){
@@ -201,8 +229,11 @@ function showStatistics(){
 			letterDisplayBlock.parentElement.style.backgroundColor = '#999900'
 		} else if( letters[i].typed !== 0){
 			letterDisplayBlock.parentElement.style.backgroundColor = '#FF0000'
-		}
-
+		}	
 		j++
 	}
+}
+
+function computeKeypressStat(time, keysPressed, wordCount){ 
+	console.log(time + ' ' + keysPressed + ' ' + wordCount + '\n' + 'WPM:'+(wordCount/time));		
 }
